@@ -2,6 +2,7 @@ import os
 import requests
 import time
 import jwt
+import json
 from dateutil import parser
 
 
@@ -27,8 +28,9 @@ class Main():
         "X-GitHub-Api-Version": "2022-11-28",
         "Authorization": f"Bearer {jwt_token}"
       }
-      url = f"https://api.github.com/app/installations/{installation_id}/access_token"
+      url = f"https://api.github.com/app/installations/{installation_id}/access_tokens"
       response = requests.post(url, headers=headers)
+      print(f"response.status_code: {response.status_code}")
       if response.status_code != 201:
         raise Exception("Falha ao gerar o access_token!")
       
@@ -53,7 +55,7 @@ class Main():
       response = requests.get(url, data=payload, headers=headers)
 
       print(f"Status Code: {response.status_code}")
-      print(f"Response Body: {response.json()}")
+      print(f"Response Body: {json.dumps(response.json(), indent=2)}")
     except Exception as error:
       print(f"Erro ao executar o método List self-hosted runner groups for an organization: {error}")
 
