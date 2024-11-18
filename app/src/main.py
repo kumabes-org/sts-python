@@ -14,13 +14,13 @@ class Main():
       print(f"current_time: {current_time}")
       payload = {
         # issued at time
-        "iat": current_time,
+        'iat': current_time,
         # JWT expiration time (10 minutes maximum)
-        "exp": current_time + (10 * 60),
+        'exp': current_time + (10 * 60),
         # GitHub Apps identifier - you can't get it from the GitHub App Dashboard
-        "iss": application_id
+        'iss': application_id
       }
-      jwt_token = jwt.encode(payload, private_key, algorithm="RS256")
+      jwt_token = jwt.encode(payload, private_key, algorithm='RS256')
 
       ## create an installation access token for an app
       headers = {
@@ -31,16 +31,15 @@ class Main():
       url = f"https://api.github.com/app/installations/{installation_id}/access_tokens"
       response = requests.post(url, headers=headers)
       print(f"response.status_code: {response.status_code}")
-      if response.status_code != 201:
-        raise Exception("Falha ao gerar o access_token!")
+      print(f"response.json(): {response.json()}")
       
       response_body = response.json()
 
       ## get access token
-      token = response_body["token"]
+      token = response_body['token']
 
       ## get expires access token
-      expires_at = parser.parse(response_body["expires_at"]).astimezone(tz=None)
+      expires_at = parser.parse(response_body['expires_at']).astimezone(tz=None)
       print(f"expires_at: {expires_at}")
 
       url = f"https://api.github.com/orgs/{organization}/actions/runner-groups"
