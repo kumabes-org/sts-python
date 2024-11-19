@@ -37,5 +37,6 @@ jobs:
           tags: |
             ${{ steps.meta.outputs.tags }}
             rotoku/sts-python:${{ github.sha }}
+            rotoku/sts-python:v0.0.1
             rotoku/sts-python:latest
           labels: ${{ steps.meta.outputs.labels }}
